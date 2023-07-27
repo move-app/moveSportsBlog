@@ -11,7 +11,7 @@ export class SportsEventsService {
   
 
   async baseGraphCMSFetch (mutation: {query: string}) {
-    var data = await fetch(`${environment.apiUrl}}`, {
+    var data = await fetch(environment.apiUrl, {
         method: "POST",
         headers: { 
             "Content-Type": "application/json",
