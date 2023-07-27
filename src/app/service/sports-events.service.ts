@@ -11,7 +11,7 @@ export class SportsEventsService {
   
 
   async baseGraphCMSFetch (mutation: {query: string}) {
-    var data = await fetch("https://api-sa-east-1.hygraph.com/v2/cledd0zbo4llj01tbh7gh6ygz/master", {
+    var data = await fetch(`${environment.apiUrl}}`, {
         method: "POST",
         headers: { 
             "Content-Type": "application/json",
