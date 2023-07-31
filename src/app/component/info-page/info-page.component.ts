@@ -1,6 +1,8 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, DebugNode, EventEmitter, Input, Output } from '@angular/core';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { formatTimestamp } from 'src/app/helpers/helper';
 import { emptySportsEvent, sportsEvents } from 'src/app/interfaces/sportsEvents';
+import { SportsEventsService } from 'src/app/service/sports-events.service';
 
 @Component({
   selector: 'app-info-page',
@@ -8,38 +10,51 @@ import { emptySportsEvent, sportsEvents } from 'src/app/interfaces/sportsEvents'
   styleUrls: ['./info-page.component.css']
 })
 export class InfoPageComponent {
-  @Input('event') event: sportsEvents = emptySportsEvent;
-  @Output() eventChange = new EventEmitter<sportsEvents>();    
+  eventId: string | null = "";
+  event: sportsEvents = emptySportsEvent;
   linksValues: string[] = [];
 
+  constructor(private route: ActivatedRoute, private router: Router, private sportsEventsService: SportsEventsService) {
+    this.eventId = this.route.snapshot.paramMap.get('id');
+    this.loadEvent();
+  }
+
+  async loadEvent(){
+    let aux = await this.sportsEventsService.getSportEvents(this.eventId ?? "");    
+    this.event = aux;
+  }
+
   formatTimestamp(date: Date[]){
+    if (!date) return "";
     return formatTimestamp(date);
   }
   
   selectEvent(){
-    window.scrollTo(0,0);
-    this.eventChange.emit(emptySportsEvent);
+    // window.scrollTo(0,0);
+    this.router.navigate(['']);
   }
 
   countDescriptionLines() {
-    return `height: ${this.event.description.split('-').length * 25}px`;
+    return this.event.description ? 
+      `height: ${this.event?.description?.split('-').length * 15}px` :
+      `display: none`;
   }
 
-  getDescriptionWithoutLinks() {    
+  getDescriptionWithoutLinks() {
     const links = [];
     let desc = this.event.description;
 
-    const linksAmount = desc.toUpperCase().split("HTTP").length - 1;
+    const linksAmount = desc?.toUpperCase().split("HTTP").length - 1;
 
     for(let i=0; i<linksAmount; i++)
     {
-      const httpsPosition = desc.toUpperCase().indexOf("HTTP");
+      const httpsPosition = desc?.toUpperCase().indexOf("HTTP");
   
-      const firstHalf = desc.slice(0, httpsPosition);
+      const firstHalf = desc?.slice(0, httpsPosition);
       const firstBL = firstHalf.lastIndexOf('\n');
   
   
-      const secondHalf = desc.slice(httpsPosition);
+      const secondHalf = desc?.slice(httpsPosition);
       const secondBL = secondHalf.indexOf('\n');
   
       const linkLine = firstHalf.slice(firstBL) + secondHalf.slice(0, secondBL);
@@ -55,20 +70,27 @@ export class InfoPageComponent {
   }
 
   removeFinalBreakLines(text: string){
-    while(text.length - text.lastIndexOf('\n') < 2)    
-      text = text.slice(0, text.lastIndexOf('\n'));
+    let cont = 0;
+
+    while(text?.length - text?.lastIndexOf('\n') < 2){
+      text = text.slice(0, text?.lastIndexOf('\n'));
+      cont++;
+      if (cont > 50)
+        break;
+    }
+      
 
       return text;
   }
 
   getTextLinkPart(text: string){
-    const idx = text.toUpperCase().indexOf("HTTP");
-    return text.slice(0, idx).replaceAll("\n", "");
+    const idx = text?.toUpperCase().indexOf("HTTP");
+    return text?.slice(0, idx).replaceAll("\n", "");
   }
 
   getUrlLinkPart(text: string){
-    const idx = text.toUpperCase().indexOf("HTTP");
-    return text.slice(idx).replaceAll("\n","");
+    const idx = text?.toUpperCase().indexOf("HTTP");
+    return text?.slice(idx).replaceAll("\n","");
   }
 
 

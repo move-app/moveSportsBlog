@@ -1,3 +1,8 @@
+<header>
+    <img src="assets/logo.png" />
+    <h1>Sports</h1>
+</header>
+
 <div class="container">
     <button (click)="this.selectEvent()">Voltar</button>
 
@@ -8,11 +13,10 @@
 
         <p>Endereço: {{event.address}}</p>
 
-        <p *ngIf="event.price !== 0">Preço: R$ {{event.price}}</p>
-
-        <!-- <span>Informações</span> -->
+        <p *ngIf="event.price">Preço: R$ {{event.price}}</p>
+        
         <textarea [value]="getDescriptionWithoutLinks()" disabled [style]="countDescriptionLines()"></textarea>
-
+        
         <div>
             <p *ngFor="let link of linksValues">
                 <span>{{getTextLinkPart(link)}}</span>

@@ -4,6 +4,7 @@ header {
     justify-content: center;
     border-bottom: 1px solid black;
     background: #eee;
+    height: 100px;
 }
 
 header img {

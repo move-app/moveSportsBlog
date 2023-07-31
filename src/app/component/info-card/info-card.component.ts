@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
 import { emptySportsEvent, sportsEvents } from 'src/app/interfaces/sportsEvents';
 import { formatTimestamp } from 'src/app/helpers/helper';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-info-card',
@@ -8,16 +9,16 @@ import { formatTimestamp } from 'src/app/helpers/helper';
   styleUrls: ['./info-card.component.css']
 })
 export class InfoCardComponent {
-  @Input('event') event = emptySportsEvent;
-  @Output() eventChange = new EventEmitter<sportsEvents>();
+  @Input('event') event = emptySportsEvent;  
+
+  constructor(private router: Router) {}
 
   formatTimestamp(date: Date[]){
     return formatTimestamp(date);
   }
 
   selectEvent(){
-    window.scrollTo(0,0);
-    this.eventChange.emit(this.event);
+    this.router.navigate([`/event`, this.event.id]);
   }
 
 }

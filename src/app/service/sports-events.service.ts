@@ -43,4 +43,26 @@ export class SportsEventsService {
 
     return result;
   }
+
+  async getSportEvents(id: string) {
+    const value = window.localStorage.getItem("preview-mode");
+    
+    const cmsQuery = `query MyQuery {
+      sportsEvents(stage: ${value ? "DRAFT" : "PUBLISHED"}, where: {id: "${id}"} ){
+       id
+       title
+       description
+       date
+       address
+       price
+       flagStatus
+       imgUrl
+     }                 
+   }`
+
+    const response = (await this.baseGraphCMSFetch({query: cmsQuery}));
+    const result = response?.data?.sportsEvents?.[0];
+
+    return result;
+  }
 }

@@ -11,9 +11,6 @@ export class MainPageComponent {
   sportsEvents: sportsEvents[] = [];
   upcomingEvents: sportsEvents[] = [];
   precedingEvents: sportsEvents[] = [];
-  
-  selectedEvent: sportsEvents = emptySportsEvent;
-  emptyEvent: sportsEvents = emptySportsEvent;
 
 
   constructor(private sportsEventsService: SportsEventsService){
@@ -29,7 +26,6 @@ export class MainPageComponent {
 
     const precd = this.selectPrecedingEvents(result);
     this.precedingEvents = precd;
-
   }
 
   selectUpcomingEvents(events: sportsEvents[]) {
@@ -62,14 +58,6 @@ export class MainPageComponent {
 
       return y - x;
     });
-  }
-
-  isGeneralView(){
-    return this.selectedEvent?.id ? false : true;
-  }
-
-  changeEvent(event: sportsEvents){
-    this.selectedEvent = event;
   }
 
 }

@@ -1,6 +1,6 @@
 export const formatTimestamp = (date: Date[]) => {
-    const result = []
-
+    const result = [];
+    
     for(let d of date){
         const cDate = new Date(d);
         const day = `${cDate.getDate().toString().padStart(2, '0')}`;
@@ -13,5 +13,5 @@ export const formatTimestamp = (date: Date[]) => {
         result.push(fDate);
     }
     
-    return result.join(' | ');
+    return result?.join(' | ');
 }
