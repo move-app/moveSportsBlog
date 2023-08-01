@@ -9,7 +9,7 @@
         <h2>Próximos Eventos</h2>    
         <div class="eventsContainer">
             <div *ngFor="let event of upcomingEvents">
-                <app-info-card [event]="event"></app-info-card>
+                <app-info-card [event]="event" [preview]="preview"></app-info-card>
             </div>
         </div>
     </section>
@@ -22,7 +22,7 @@
         <h2>Eventos Anteriores</h2>
         <div class="eventsContainer">
             <div *ngFor="let event of precedingEvents">
-                <app-info-card [event]="event"></app-info-card>
+                <app-info-card [event]="event" [preview]="preview"></app-info-card>
             </div>
         </div>
     </section>

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environment/environment';
+import { sportsEvents } from '../interfaces/sportsEvents';
 
 @Injectable({
   providedIn: 'root'
@@ -22,9 +23,7 @@ export class SportsEventsService {
 
     return data;
 }
-  async getSportsEvents() {
-    const value = window.localStorage.getItem("preview-mode");
-    
+  async getSportsEvents(value: boolean) {
     const cmsQuery = `query MyQuery {
       sportsEvents(stage: ${value ? "DRAFT" : "PUBLISHED"} ){
        id
@@ -40,15 +39,13 @@ export class SportsEventsService {
 
     const response = (await this.baseGraphCMSFetch({query: cmsQuery}));
     const result = response?.data?.sportsEvents;
-
-    return result;
+   
+    return value ? result : result.filter((x: sportsEvents) => x.flagStatus === 'confirmed' || x.flagStatus === 'done');
   }
 
   async getSportEvents(id: string) {
-    const value = window.localStorage.getItem("preview-mode");
-    
     const cmsQuery = `query MyQuery {
-      sportsEvents(stage: ${value ? "DRAFT" : "PUBLISHED"}, where: {id: "${id}"} ){
+      sportsEvents(stage: DRAFT, where: {id: "${id}"} ){
        id
        title
        description

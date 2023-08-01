@@ -10,6 +10,8 @@ import { SportsEventsService } from 'src/app/service/sports-events.service';
   styleUrls: ['./info-page.component.css']
 })
 export class InfoPageComponent {
+  @Input('preview') preview = '';
+
   eventId: string | null = "";
   event: sportsEvents = emptySportsEvent;
   linksValues: string[] = [];
@@ -31,18 +33,19 @@ export class InfoPageComponent {
   
   selectEvent(){
     // window.scrollTo(0,0);
-    this.router.navigate(['']);
+    const preview = window.localStorage.getItem('preview');
+    this.router.navigate([preview ? '/preview' : '']);
   }
 
   countDescriptionLines() {
-    return this.event.description ? 
+    return this.event ? this.event.description ? 
       `height: ${this.event?.description?.split('-').length * 15}px` :
-      `display: none`;
+      `display: none` : '';
   }
 
   getDescriptionWithoutLinks() {
     const links = [];
-    let desc = this.event.description;
+    let desc = this.event ? this.event.description : '';
 
     const linksAmount = desc?.toUpperCase().split("HTTP").length - 1;
 

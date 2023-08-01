@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { emptySportsEvent, sportsEvents } from 'src/app/interfaces/sportsEvents';
 import { SportsEventsService } from 'src/app/service/sports-events.service';
 
@@ -8,17 +8,26 @@ import { SportsEventsService } from 'src/app/service/sports-events.service';
   styleUrls: ['./main-page.component.css']
 })
 export class MainPageComponent {
+  @Input() preview = '';
+  
   sportsEvents: sportsEvents[] = [];
   upcomingEvents: sportsEvents[] = [];
   precedingEvents: sportsEvents[] = [];
+  
+  
+  constructor(private sportsEventsService: SportsEventsService){}
 
-
-  constructor(private sportsEventsService: SportsEventsService){
+  ngOnInit(){
+    if (this.preview)
+      window.localStorage.setItem('preview', 'true');
+    else
+      window.localStorage.removeItem('preview');
+      
     this.loadSportsEvents();
   }
 
   async loadSportsEvents(){
-    const result = await this.sportsEventsService.getSportsEvents();
+    const result = await this.sportsEventsService.getSportsEvents(this.preview ? true : false);
     this.sportsEvents = result;
 
     const upcmg = this.selectUpcomingEvents(result);

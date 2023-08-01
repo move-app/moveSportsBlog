@@ -9,7 +9,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./info-card.component.css']
 })
 export class InfoCardComponent {
-  @Input('event') event = emptySportsEvent;  
+  @Input('event') event = emptySportsEvent;
+  @Input('preview') preview = '';
 
   constructor(private router: Router) {}
 

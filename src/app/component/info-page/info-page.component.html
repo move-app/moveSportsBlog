@@ -7,13 +7,13 @@
     <button (click)="this.selectEvent()">Voltar</button>
 
     <div>
-        <h2>{{event.title}}</h2>
+        <h2>{{event ? event.title : ''}}</h2>
 
-        <p>Data: {{formatTimestamp(event.date)}}</p>
+        <p>Data: {{event ? formatTimestamp(event.date) : ''}}</p>
 
-        <p>Endereço: {{event.address}}</p>
+        <p>Endereço: {{event ? event.address : ''}}</p>
 
-        <p *ngIf="event.price">Preço: R$ {{event.price}}</p>
+        <p *ngIf="event ? event.price : false">Preço: R$ {{event ? event.price : ''}}</p>
         
         <textarea [value]="getDescriptionWithoutLinks()" disabled [style]="countDescriptionLines()"></textarea>
         
@@ -25,7 +25,7 @@
         </div>
         
 
-        <img [src]="event.imgUrl"/>
+        <img [src]="event ? event.imgUrl : ''"/>
 
         
     </div>
