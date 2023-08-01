@@ -9,7 +9,7 @@ export const formatTimestamp = (date: Date[]) => {
         const hour = `${cDate.getHours().toString().padStart(2, '0')}`;
         const minute = `${cDate.getMinutes().toString().padStart(2, '0')}`;
         
-        const fDate = `${day}/${month}/${year} ${hour}:${minute}`;
+        const fDate = `${day}/${month}/${year} - ${hour}:${minute}`;
         result.push(fDate);
     }
     
