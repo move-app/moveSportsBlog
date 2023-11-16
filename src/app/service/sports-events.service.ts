@@ -24,7 +24,6 @@ export class SportsEventsService {
     return data;
 }
   async getSportsEvents(value: boolean) {
-    console.log("🚀 ~ file: sports-events.service.ts:27 ~ SportsEventsService ~ getSportsEvents ~ value:", value)
     const cmsQuery = `query MyQuery {
       sportsEvents(stage: ${value ? "DRAFT" : "PUBLISHED"}, last: 50 ){
        id
